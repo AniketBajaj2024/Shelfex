@@ -1,6 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
+const jobRoutes = require("./routes/jobRoutes");
+
+
 require("dotenv").config();
 
 const app = express();
@@ -24,3 +28,8 @@ mongoose
     );
   })
   .catch((err) => console.log("DB Connection Error:", err.message));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/jobs", jobRoutes);
+
+
