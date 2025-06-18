@@ -147,7 +147,7 @@ export default function Dashboard() {
 
       <h3>{isAdmin ? "All Jobs" : "Available Jobs"}</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      console.log("Jobs:", {jobs.length});
+
       {jobs.length === 0 ? (
         <p>No jobs yet.</p>
       ) : (
@@ -155,7 +155,7 @@ export default function Dashboard() {
           {jobs.map((job) => (
             <li key={job._id} style={{ marginBottom: "1rem" }}>
               <strong>{job.company}</strong> - {job.role}
-              {!isAdmin && (
+              {!isAdmin ? (
                 <button
                   style={{ marginLeft: "1rem" }}
                   onClick={() => handleApply(job._id)}
@@ -163,6 +163,11 @@ export default function Dashboard() {
                 >
                   {applications.includes(job._id) ? "Applied" : "Apply"}
                 </button>
+              ) : (
+                <Link to={`/admin/applicants/${job._id}`} style={{ marginLeft: "1rem" }}>
+                View Applicants
+              </Link>
+
               )}
             </li>
           ))}
