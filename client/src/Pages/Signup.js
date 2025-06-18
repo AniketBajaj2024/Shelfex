@@ -22,7 +22,7 @@ export default function Signup() {
     setError("");
 
     try {
-      await axios.post("http://localhost:5000/api/auth/signup", formData);
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/signup`, formData);
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed");

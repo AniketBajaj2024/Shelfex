@@ -64,7 +64,7 @@ export default function Dashboard() {
   const handleAddJob = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/jobs", form, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs`, form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs((prev) => [res.data, ...prev]);
@@ -82,7 +82,7 @@ export default function Dashboard() {
   const handleApply = async (jobId) => {
     try {
       await axios.post(
-        "http://localhost:5000/api/applications",
+        `${process.env.REACT_APP_API_URL}/api/applications`,
         { jobId },
         {
           headers: { Authorization: `Bearer ${token}` },
