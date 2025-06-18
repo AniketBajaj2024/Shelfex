@@ -19,6 +19,13 @@ export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
   const isAdmin = user?.role === "admin";
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+  
+
   useEffect(() => {
     if (!token) {
       navigate("/login");
@@ -90,7 +97,11 @@ export default function Dashboard() {
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem" }}>
-
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+  <button onClick={handleLogout} style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+    Logout
+  </button>
+</div>
       <h2>
         Welcome, {user?.name} ({user?.role})
       </h2>
