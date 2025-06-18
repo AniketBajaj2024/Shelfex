@@ -70,7 +70,7 @@ export default function Signup() {
         <button type="submit">Sign Up</button>
       </form>
       <p style={{ marginTop: "1rem" }}>
-  Don't have an account? <a href="/signup">Sign up here</a>
+  Don't have an account? <a href="/login">Login</a>
 </p>
 
     </div>
