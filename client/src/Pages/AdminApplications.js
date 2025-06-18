@@ -96,26 +96,51 @@ const [sortOrder, setSortOrder] = useState("");
         <p>No applications yet.</p>
       ) : (
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem", marginTop: "1.5rem" }}>
-  {applications.map((app) => (
-    <div key={app._id} style={{ border: "1px solid #ccc", borderRadius: "8px", padding: "1rem", backgroundColor: "#f5f5f5" }}>
-      <h4>{app.applicant.name}</h4>
-      <p><strong>Email:</strong> {app.applicant.email}</p>
-      <p><strong>Status:</strong></p>
-      <select
-        value={app.status}
-        onChange={(e) => handleStatusChange(app._id, e.target.value)}
-        style={{ width: "100%", padding: "0.5rem", borderRadius: "4px" }}
-      >
-        <option value="Applied">Applied</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Accepted">Accepted</option>
-        <option value="Rejected">Rejected</option>
-      </select>
-    </div>
-  ))}
-</div>
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "1rem",
+            marginTop: "1rem"
+          }}>
+            {applications.map((app) => (
+              <div key={app._id} style={{
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                padding: "1rem",
+                backgroundColor: "#f5f5f5",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                width: "100%",
+                boxSizing: "border-box"
+              }}>
+                <strong>{app.applicant.name}</strong>
+                <p
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "100%"
+                  }}
+                  title={app.applicant.email}
+                >
+                  <strong>Email:</strong> {app.applicant.email}
+                </p>
+                <label>Status:</label>
+                <select
+                  value={app.status}
+                  onChange={(e) => handleStatusChange(app._id, e.target.value)}
+                  style={{ marginTop: "0.5rem", width: "100%" }}
+                >
+                  <option value="Applied">Applied</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Offer">Offer</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>    
+            ))}
+          </div>
+          
 
       )}
     </div>

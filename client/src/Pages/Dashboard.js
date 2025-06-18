@@ -89,7 +89,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem" }}>
+
       <h2>
         Welcome, {user?.name} ({user?.role})
       </h2>
@@ -105,7 +106,10 @@ export default function Dashboard() {
               value={form.company}
               onChange={handleChange}
               required
-            /><br /><br />
+              style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
+
+            />
+            <br /><br />
 
             <input
               type="text"
@@ -114,24 +118,33 @@ export default function Dashboard() {
               value={form.role}
               onChange={handleChange}
               required
+              style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
+
             /><br /><br />
 
-            <input
-              type="date"
-              name="appliedDate"
-              value={form.appliedDate}
-              onChange={handleChange}
-              required
-            /><br /><br />
 
             <textarea
               name="notes"
               placeholder="Notes"
               value={form.notes}
               onChange={handleChange}
+              style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
+
             /><br /><br />
 
-            <button type="submit">Add Job</button>
+              <input
+              type="date"
+              name="appliedDate"
+              value={form.appliedDate}
+              onChange={handleChange}
+              required
+              style={{ padding: "0.5rem", marginBottom: "1rem", borderRadius: "4px", border: "1px solid #ccc" }}
+
+            /><br /><br />
+
+<button type="submit" style={{ padding: "0.6rem 1.2rem", borderRadius: "4px", backgroundColor: "#007bff", color: "white", border: "none" }}>
+  Add Job
+</button>
           </form>
 
           <hr />
@@ -158,7 +171,8 @@ export default function Dashboard() {
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
   {jobs.map((job) => (
-    <div key={job._id} style={{ border: "1px solid #ccc", borderRadius: "8px", padding: "1rem", backgroundColor: "#f9f9f9" }}>
+    <div key={job._id} style={{ border: "1px solid #e0e0e0", borderRadius: "12px", padding: "1rem", backgroundColor: "#ffffff", boxShadow: "0 2px 6px rgba(0,0,0,0.05)" }}>
+
       <h4>{job.company}</h4>
       <p><strong>Role:</strong> {job.role}</p>
       <p><strong>Applied Date:</strong> {new Date(job.appliedDate).toLocaleDateString()}</p>
@@ -168,12 +182,24 @@ export default function Dashboard() {
         <button
           onClick={() => handleApply(job._id)}
           disabled={applications.includes(job._id)}
+          style={{
+            padding: "0.5rem 1rem",
+            borderRadius: "4px",
+            backgroundColor: applications.includes(job._id) ? "#ccc" : "#28a745",
+            color: "white",
+            border: "none",
+            cursor: applications.includes(job._id) ? "not-allowed" : "pointer"
+          }}
+          
         >
           {applications.includes(job._id) ? "Applied" : "Apply"}
         </button>
       ) : (
         <Link to={`/admin/applicants/${job._id}`}>
-          <button style={{ marginTop: "0.5rem" }}>View Applicants</button>
+          <button style={{ padding: "0.5rem 1rem", borderRadius: "4px", backgroundColor: "#007bff", color: "white", border: "none", cursor: "pointer" }}>
+  View Applicants
+</button>
+
         </Link>
       )}
     </div>
