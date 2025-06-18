@@ -12,7 +12,7 @@ export default function MyApplications() {
       try {
         console.log("comes here1");
 
-        const res = await axios.get("http://localhost:5000/api/applications/my-applications", {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/applications/my-applications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -37,13 +37,13 @@ export default function Dashboard() {
         const queryParams = new URLSearchParams();
         if (sortOrder) queryParams.append("sort", sortOrder);
 
-        const jobsRes = await axios.get(`http://localhost:5000/api/jobs?${queryParams.toString()}`, {
+        const jobsRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/jobs?${queryParams.toString()}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setJobs(jobsRes.data);
 
         if (!isAdmin) {
-          const appsRes = await axios.get("http://localhost:5000/api/applications/my-applications", {
+          const appsRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/applications/my-applications`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const appliedJobIds = appsRes.data.map((app) => app.job._id);
@@ -64,7 +64,7 @@ export default function Dashboard() {
   const handleAddJob = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/jobs", form, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/jobs`, form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs((prev) => [res.data, ...prev]);
@@ -82,7 +82,7 @@ export default function Dashboard() {
   const handleApply = async (jobId) => {
     try {
       await axios.post(
-        "http://localhost:5000/api/applications",
+        `${process.env.REACT_APP_API_URL}/api/applications`,
         { jobId },
         {
           headers: { Authorization: `Bearer ${token}` },

@@ -20,7 +20,7 @@ const [sortOrder, setSortOrder] = useState("");
         if (sortOrder) queryParams.append("sort", sortOrder);
   
         const res = await axios.get(
-          `http://localhost:5000/api/applications/job/${jobId}?${queryParams.toString()}`,
+          `${process.env.REACT_APP_API_URL}/api/applications/job/${jobId}?${queryParams.toString()}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -43,7 +43,7 @@ const [sortOrder, setSortOrder] = useState("");
       const handleStatusChange = async (applicationId, newStatus) => {
         try {
           await axios.put(
-            `http://localhost:5000/api/applications/${applicationId}`,
+            `${process.env.REACT_APP_API_URL}/api/applications/${applicationId}`,
             { status: newStatus },
             {
               headers: { Authorization: `Bearer ${token}` },
