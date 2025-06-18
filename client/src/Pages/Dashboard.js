@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
@@ -131,6 +132,7 @@ export default function Dashboard() {
           ))}
         </ul>
       )}
+      <Link to="/my-applications">Application</Link>
     </div>
   );
 }
