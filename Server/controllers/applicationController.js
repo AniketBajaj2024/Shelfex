@@ -69,8 +69,26 @@ const applyToJob = async (req, res) => {
     // @desc    Get applications for a job
 };
 
+const updateApplicationStatus = async (req, res) => {
+  try {
+    const application = await Application.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+
+    if (!application) return res.status(404).json({ message: "Application not found" });
+
+    res.status(200).json(application);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 module.exports = {
   applyToJob,
   getApplicationsForJob,
-  getMyApplications
+  getMyApplications,
+  updateApplicationStatus
 };
