@@ -22,9 +22,15 @@ exports.createJob = async (req, res) => {
 };
 
 // Get all jobs for user (with optional filters)
+// Get all jobs
 exports.getJobs = async (req, res) => {
   const { status, sort } = req.query;
-  const filter = { userId: req.user.id };
+  const filter = {};
+
+  // Admin sees only their own jobs
+  if (req.user.role === "admin") {
+    filter.userId = req.user.id;
+  }
 
   if (status) {
     filter.status = status;
@@ -45,6 +51,7 @@ exports.getJobs = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // Get job by ID
 exports.getJobById = async (req, res) => {

@@ -4,9 +4,19 @@ const Application = require("../models/Application");
 // @route   POST /api/applications
 // @access  Private (Applicant only)
 const getApplicationsForJob = async (req, res) => {
-    const { jobId } = req.query;
+    const { jobId } = req.params;
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied. Admins only." });
+    }
   
     try {
+
+      if (!jobId) {
+        console.log({jobId});
+        return res.status(400).json({ message: "Job ID is required" },);
+      }
+
+      console.log("Fetching applications for job:", jobId);
       const applications = await Application.find({ job: jobId })
         .populate("applicant", "name email")
         .populate("job", "company role");
