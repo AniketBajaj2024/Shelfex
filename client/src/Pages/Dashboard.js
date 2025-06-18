@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const [sortOrder, setSortOrder] = useState("");
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
   const [form, setForm] = useState({
@@ -26,18 +27,18 @@ export default function Dashboard() {
 
     const fetchData = async () => {
       try {
-        const jobsRes = await axios.get("http://localhost:5000/api/jobs", {
+        const queryParams = new URLSearchParams();
+        if (sortOrder) queryParams.append("sort", sortOrder);
+
+        const jobsRes = await axios.get(`http://localhost:5000/api/jobs?${queryParams.toString()}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setJobs(jobsRes.data);
 
         if (!isAdmin) {
-          const appsRes = await axios.get(
-            "http://localhost:5000/api/applications/my-applications",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const appsRes = await axios.get("http://localhost:5000/api/applications/my-applications", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           const appliedJobIds = appsRes.data.map((app) => app.job._id);
           setApplications(appliedJobIds);
         }
@@ -47,7 +48,7 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, [navigate, token, isAdmin]);
+  }, [navigate, token, isAdmin, sortOrder]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -104,9 +105,7 @@ export default function Dashboard() {
               value={form.company}
               onChange={handleChange}
               required
-            />
-            <br />
-            <br />
+            /><br /><br />
 
             <input
               type="text"
@@ -115,9 +114,7 @@ export default function Dashboard() {
               value={form.role}
               onChange={handleChange}
               required
-            />
-            <br />
-            <br />
+            /><br /><br />
 
             <input
               type="date"
@@ -125,18 +122,14 @@ export default function Dashboard() {
               value={form.appliedDate}
               onChange={handleChange}
               required
-            />
-            <br />
-            <br />
+            /><br /><br />
 
             <textarea
               name="notes"
               placeholder="Notes"
               value={form.notes}
               onChange={handleChange}
-            />
-            <br />
-            <br />
+            /><br /><br />
 
             <button type="submit">Add Job</button>
           </form>
@@ -148,30 +141,45 @@ export default function Dashboard() {
       <h3>{isAdmin ? "All Jobs" : "Available Jobs"}</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
+      {/* Only Admin sees Sort dropdown */}
+      {
+        <div style={{ marginBottom: "1rem" }}>
+          <label>Sort By: </label>
+          <select onChange={(e) => setSortOrder(e.target.value)}>
+            <option value="">None</option>
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
+      }
+
       {jobs.length === 0 ? (
         <p>No jobs yet.</p>
       ) : (
-        <ul>
-          {jobs.map((job) => (
-            <li key={job._id} style={{ marginBottom: "1rem" }}>
-              <strong>{job.company}</strong> - {job.role}
-              {!isAdmin ? (
-                <button
-                  style={{ marginLeft: "1rem" }}
-                  onClick={() => handleApply(job._id)}
-                  disabled={applications.includes(job._id)}
-                >
-                  {applications.includes(job._id) ? "Applied" : "Apply"}
-                </button>
-              ) : (
-                <Link to={`/admin/applicants/${job._id}`} style={{ marginLeft: "1rem" }}>
-                View Applicants
-              </Link>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
+  {jobs.map((job) => (
+    <div key={job._id} style={{ border: "1px solid #ccc", borderRadius: "8px", padding: "1rem", backgroundColor: "#f9f9f9" }}>
+      <h4>{job.company}</h4>
+      <p><strong>Role:</strong> {job.role}</p>
+      <p><strong>Applied Date:</strong> {new Date(job.appliedDate).toLocaleDateString()}</p>
+      {job.notes && <p><strong>Notes:</strong> {job.notes}</p>}
 
-              )}
-            </li>
-          ))}
-        </ul>
+      {!isAdmin ? (
+        <button
+          onClick={() => handleApply(job._id)}
+          disabled={applications.includes(job._id)}
+        >
+          {applications.includes(job._id) ? "Applied" : "Apply"}
+        </button>
+      ) : (
+        <Link to={`/admin/applicants/${job._id}`}>
+          <button style={{ marginTop: "0.5rem" }}>View Applicants</button>
+        </Link>
+      )}
+    </div>
+  ))}
+</div>
+
       )}
 
       {!isAdmin && (

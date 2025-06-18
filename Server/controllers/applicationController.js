@@ -4,28 +4,27 @@ const Application = require("../models/Application");
 // @route   POST /api/applications
 // @access  Private (Applicant only)
 const getApplicationsForJob = async (req, res) => {
-    const { jobId } = req.params;
-    if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Access denied. Admins only." });
-    }
-  
-    try {
+  const { jobId } = req.params;
+  const { status, sort } = req.query;
 
-      if (!jobId) {
-        console.log({jobId});
-        return res.status(400).json({ message: "Job ID is required" },);
-      }
+  const filter = { job: jobId };
+  if (status) filter.status = status;
 
-      console.log("Fetching applications for job:", jobId);
-      const applications = await Application.find({ job: jobId })
-        .populate("applicant", "name email")
-        .populate("job", "company role");
-  
-      res.status(200).json(applications);
-    } catch (err) {
-      res.status(500).json({ message: "Error fetching applications" });
-    }
-  };
+  try {
+    let query = Application.find(filter)
+      .populate("applicant", "name email")
+      .populate("job", "company role");
+
+    if (sort === "latest") query = query.sort({ createdAt: -1 });
+    else if (sort === "oldest") query = query.sort({ createdAt: 1 });
+
+    const applications = await query;
+    res.status(200).json(applications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 // @desc    Get logged-in applicant's applications
 // @route   GET /api/my-applications
