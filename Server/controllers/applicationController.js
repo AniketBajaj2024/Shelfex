@@ -93,6 +93,8 @@ const updateApplicationStatus = async (req, res) => {
     );
 
     if (!application) return res.status(404).json({ message: "Application not found" });
+    application = await application.populate("applicant", "name email");
+    application = await application.populate("job", "role company");
 
     await sendEmail(
       application.applicant.email,
