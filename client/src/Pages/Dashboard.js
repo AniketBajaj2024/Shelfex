@@ -41,6 +41,12 @@ export default function Dashboard() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setJobs(jobsRes.data);
+              if (!Array.isArray(jobsRes.data)) {
+        setJobs([]);
+      } else {
+        setJobs(jobsRes.data);
+}
+
 
         if (!isAdmin) {
           const appsRes = await axios.get(`${process.env.REACT_APP_API_URL}/api/applications/my-applications`, {

@@ -1,138 +1,69 @@
-📌 Job Application Tracker
-A full-stack web application for managing job listings and applications. Built for both applicants and admins, this system allows:
 
-📤 Applicants to apply to jobs and track their application status
+# Job Application Tracker
 
-🛠️ Admins to post new jobs and manage applicants
+A full-stack job application tracking system where:
+- **Admins** can post jobs, view applicants, update application statuses, and delete jobs.
+- **Applicants** can view jobs, apply, and track the status of their applications.
 
-📬 Automatic email notifications for application and status updates
+## Features
 
-🌐 Live Demo
-Frontend: https://your-vercel-url.vercel.app
-Backend: https://your-render-url.onrender.com
+### 🔐 Authentication
+- JWT-based login and signup for Admin and Applicants
 
-🚀 Features
-👤 Applicant
-View available jobs
+### 👨‍💼 Admin Panel
+- Post new job listings
+- View applicants per job with filter/sort
+- Update application statuses (e.g., Interview, Offer)
+- Delete jobs (applicants will see "Job Closed")
 
-Apply to a job
+### 🙋‍♂️ Applicant Panel
+- View available jobs
+- Apply to jobs (once per job)
+- View your application status
 
-See your application status
+### ✉️ Email Notifications
+- Applicants receive an email after applying
+- Applicants receive an email when status is updated
 
-Receive email confirmation after applying
+## Tech Stack
 
-🛡️ Admin
-Post new jobs
+- **Frontend:** React, Axios, React Router
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (Mongoose)
+- **Email Service:** Nodemailer (Gmail SMTP)
 
-View list of applicants per job
+## Setup Instructions
 
-Filter applicants by status
+### Backend (Render or Local)
+1. Clone the repo and navigate to `/backend`
+2. Create a `.env` file:
+   ```env
+   MONGO_URI=your_mongo_uri
+   JWT_SECRET=your_jwt_secret
+   EMAIL_USER=your_gmail_address
+   EMAIL_PASS=your_gmail_app_password
+   ```
+3. Run the server:
+   ```bash
+   npm install
+   node index.js
+   ```
 
-Update status (e.g., Interview, Offer, Rejected)
+### Frontend (Vercel or Local)
+1. Navigate to `/frontend`
+2. Create a `.env` file:
+   ```env
+   REACT_APP_API_URL=https://your-backend-url.onrender.com
+   ```
+3. Start the frontend:
+   ```bash
+   npm install
+   npm start
+   ```
 
-Sends email to applicant when status is changed
+## Live Demo
+- Frontend: https://shelfex-omega.vercel.app/
+- Backend: https://shelfex-cjs0.onrender.com
 
-🛠️ Tech Stack
-Frontend:
-
-React
-
-React Router
-
-Axios
-
-Backend:
-
-Node.js
-
-Express
-
-MongoDB + Mongoose
-
-JWT Auth
-
-Nodemailer (for emails)
-
-📂 Folder Structure (Simplified)
-pgsql
-Copy
-Edit
-📁 client
-  └── src
-      ├── Pages/
-      ├── App.js
-      └── index.js
-
-📁 server
-  ├── models/
-  ├── routes/
-  ├── controllers/
-  ├── utils/sendEmail.js
-  └── server.js
-🧪 .env Setup
-On the backend, create a .env file:
-
-ini
-Copy
-Edit
-PORT=5000
-MONGO_URI=your_mongo_uri
-JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_gmail_app_password
-On the frontend, create a .env file:
-
-ini
-Copy
-Edit
-REACT_APP_API_URL=https://your-backend-url.onrender.com
-📦 Installation (Local Setup)
-Clone the Repo
-
-bash
-Copy
-Edit
-git clone https://github.com/your-username/job-tracker.git
-Backend Setup
-
-bash
-Copy
-Edit
-cd server
-npm install
-npm run dev
-Frontend Setup
-
-bash
-Copy
-Edit
-cd client
-npm install
-npm start
-📤 Deployment
-Frontend: Vercel
-
-Backend: Render
-
-Make sure you:
-
-Set environment variables in Render
-
-Set REACT_APP_API_URL in Vercel
-
-✉️ Email Notifications
-Emails are triggered:
-
-When a user applies for a job
-
-When an admin updates the application status
-
-Uses Gmail SMTP with App Passwords.
-
-👤 Roles
-Applicant: Can apply to jobs and track status
-
-Admin: Can post jobs and manage applicants
-
-During signup, select your role.
-
+## Author
+Aniket Bajaj
