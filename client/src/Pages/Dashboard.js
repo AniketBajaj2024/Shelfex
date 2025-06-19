@@ -95,6 +95,20 @@ export default function Dashboard() {
     }
   };
 
+  const handleDeleteJob = async (jobId) => {
+  if (!window.confirm("Are you sure you want to delete this job?")) return;
+  try {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/api/jobs/${jobId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setJobs((prev) => prev.filter((job) => job._id !== jobId));
+    alert("Job deleted successfully");
+  } catch (err) {
+    alert("Failed to delete job");
+  }
+};
+
+
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "1rem" }}>
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
@@ -210,6 +224,9 @@ export default function Dashboard() {
           <button style={{ padding: "0.5rem 1rem", borderRadius: "4px", backgroundColor: "#007bff", color: "white", border: "none", cursor: "pointer" }}>
   View Applicants
 </button>
+        <button onClick={() => handleDeleteJob(job._id)} style={{ marginLeft: "0.5rem", backgroundColor: "#dc3545", color: "white" }}>
+      Delete
+    </button>
 
         </Link>
       )}

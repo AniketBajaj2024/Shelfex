@@ -46,8 +46,12 @@ export default function MyApplications() {
           <tbody>
             {applications.map((app) => (
               <tr key={app._id}>
-                <td>{app.job?.company}</td>
-                <td>{app.job?.role}</td>
+                <td style={{ color: app.job ? "black" : "red", fontStyle: app.job ? "normal" : "italic" }}>
+        {app.job ? app.job.company : "Job Closed"}
+      </td>
+      <td style={{ color: app.job ? "black" : "red", fontStyle: app.job ? "normal" : "italic" }}>
+        {app.job ? app.job.role : "Job Closed"}
+      </td>
                 <td>{app.status}</td>
                 <td>{new Date(app.createdAt).toLocaleDateString()}</td>
               </tr>

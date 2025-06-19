@@ -1,0 +1,138 @@
+📌 Job Application Tracker
+A full-stack web application for managing job listings and applications. Built for both applicants and admins, this system allows:
+
+📤 Applicants to apply to jobs and track their application status
+
+🛠️ Admins to post new jobs and manage applicants
+
+📬 Automatic email notifications for application and status updates
+
+🌐 Live Demo
+Frontend: https://your-vercel-url.vercel.app
+Backend: https://your-render-url.onrender.com
+
+🚀 Features
+👤 Applicant
+View available jobs
+
+Apply to a job
+
+See your application status
+
+Receive email confirmation after applying
+
+🛡️ Admin
+Post new jobs
+
+View list of applicants per job
+
+Filter applicants by status
+
+Update status (e.g., Interview, Offer, Rejected)
+
+Sends email to applicant when status is changed
+
+🛠️ Tech Stack
+Frontend:
+
+React
+
+React Router
+
+Axios
+
+Backend:
+
+Node.js
+
+Express
+
+MongoDB + Mongoose
+
+JWT Auth
+
+Nodemailer (for emails)
+
+📂 Folder Structure (Simplified)
+pgsql
+Copy
+Edit
+📁 client
+  └── src
+      ├── Pages/
+      ├── App.js
+      └── index.js
+
+📁 server
+  ├── models/
+  ├── routes/
+  ├── controllers/
+  ├── utils/sendEmail.js
+  └── server.js
+🧪 .env Setup
+On the backend, create a .env file:
+
+ini
+Copy
+Edit
+PORT=5000
+MONGO_URI=your_mongo_uri
+JWT_SECRET=your_jwt_secret
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
+On the frontend, create a .env file:
+
+ini
+Copy
+Edit
+REACT_APP_API_URL=https://your-backend-url.onrender.com
+📦 Installation (Local Setup)
+Clone the Repo
+
+bash
+Copy
+Edit
+git clone https://github.com/your-username/job-tracker.git
+Backend Setup
+
+bash
+Copy
+Edit
+cd server
+npm install
+npm run dev
+Frontend Setup
+
+bash
+Copy
+Edit
+cd client
+npm install
+npm start
+📤 Deployment
+Frontend: Vercel
+
+Backend: Render
+
+Make sure you:
+
+Set environment variables in Render
+
+Set REACT_APP_API_URL in Vercel
+
+✉️ Email Notifications
+Emails are triggered:
+
+When a user applies for a job
+
+When an admin updates the application status
+
+Uses Gmail SMTP with App Passwords.
+
+👤 Roles
+Applicant: Can apply to jobs and track status
+
+Admin: Can post jobs and manage applicants
+
+During signup, select your role.
+
