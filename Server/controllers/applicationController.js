@@ -1,4 +1,7 @@
 const Application = require("../models/Application");
+const sendEmail = require("../utils.js/sendEmail")
+const Job = require("../models/Job");
+const User = require("../models/User");
 
 // @desc    Apply to a job
 // @route   POST /api/applications
@@ -42,6 +45,7 @@ const getMyApplications = async (req, res) => {
   };
   
 const applyToJob = async (req, res) => {
+  
   const { jobId } = req.body;
 
   try {
@@ -51,6 +55,8 @@ const applyToJob = async (req, res) => {
       applicant: req.user.id,
     });
 
+
+    console.log("comes here");
     if (alreadyApplied) {
       return res.status(400).json({ message: "Already applied to this job" });
     }
@@ -59,6 +65,16 @@ const applyToJob = async (req, res) => {
       job: jobId,
       applicant: req.user.id,
     });
+
+     // Fetch job details for email
+    const job = await Job.findById(jobId);
+    const user = await User.findById(req.user.id);
+
+    await sendEmail(
+      user.email,
+      "Application Submitted",
+      `Hi ${user.name},\n\nYou have successfully applied for the role of "${job.role}" at "${job.company}".\n\nBest of luck!\nAniket Bajaj`
+    );
 
     res.status(201).json(application);
   } catch (err) {
@@ -77,6 +93,12 @@ const updateApplicationStatus = async (req, res) => {
     );
 
     if (!application) return res.status(404).json({ message: "Application not found" });
+
+    await sendEmail(
+      application.applicant.email,
+      "Application Status Updated",
+      `Hi ${application.applicant.name},\n\nThe status of your application for the role "${application.job.role}" at "${application.job.company}" has been updated to: ${application.status}.\n\nThank you,\nAniket Bajaj`
+    );
 
     res.status(200).json(application);
   } catch (err) {
