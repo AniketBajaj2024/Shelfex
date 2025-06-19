@@ -86,7 +86,7 @@ const applyToJob = async (req, res) => {
 
 const updateApplicationStatus = async (req, res) => {
   try {
-    const application = await Application.findByIdAndUpdate(
+    let application = await Application.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
       { new: true }
