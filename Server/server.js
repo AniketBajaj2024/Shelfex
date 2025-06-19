@@ -5,15 +5,28 @@ const authRoutes = require("./routes/authRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
 
-
-
 require("dotenv").config();
-
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// 👇 CORS Setup
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://shelfex-aniketbajaj2024s-projects.vercel.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -35,6 +48,3 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
-
-
-
